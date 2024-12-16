@@ -7,10 +7,52 @@ provider:
   name: aws
   runtime: nodejs20.x
 
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - "dynamodb:*"
+          Resource: arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/${self:service}-PlanetTable-${sls:stage}
+
+
+resources:
+  Resources:
+    PlanetTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}-PlanetTable-${sls:stage}
+        AttributeDefinitions:
+          - AttributeName: id_planeta
+            AttributeType: S
+          - AttributeName: url
+            AttributeType: S
+          - AttributeName: nombre
+            AttributeType: S
+          - AttributeName: terreno
+            AttributeType: S
+          - AttributeName: clima
+            AttributeType: S
+          - AttributeName: poblacion
+            AttributeType: S
+          - AttributeName: diametro
+            AttributeType: S
+          - AttributeName: periodo_rotacion
+            AttributeType: S
+          - AttributeName: periodo_orbita
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST
+        KeySchema:
+          - AttributeName: id_planeta
+            KeyType: HASH
+
 functions:
-  hello:
-    handler: handler.hello
+  crearPlaneta:
+    handler: src/handler.crearPlaneta
     events:
       - httpApi:
-          path: /
-          method: get
+          path: /planeta/crear
+          method: post
+
+plugins:
+  - serverless-plugin-typescript
