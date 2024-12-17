@@ -4,15 +4,18 @@ import { PlanetaRepository } from "../domain/PlanetaRepository";
 
 export class PlanetaService {
     constructor(private planetaRepository: PlanetaRepository, private apiRepository: PlanetaExternalApiRepository) { }
-    async obtenerPlaneta(id: string): Promise<Planeta> {
-        const planeta = this.planetaRepository.obtenerPlaneta(id);
+     obtenerPlaneta = async(id: string): Promise<Planeta>=>{
+        const planeta = await this.planetaRepository.obtenerPlaneta(id);
+        console.log("planeta", planeta);
         if (planeta) {
             return planeta;
         }
-        const planetaApiStarWars = this.apiRepository.obtenerPlaneta(id);
+        const planetaApiStarWars = await this.apiRepository.obtenerPlaneta(id);
+        console.log("planetaApiStarWars", planetaApiStarWars);
         return planetaApiStarWars;
     }
-    async crearPlaneta(planeta: Planeta): Promise<void> {
-        return this.planetaRepository.crearPlaneta(planeta);
+     crearPlaneta = async (planeta: Planeta): Promise<void> => {
+        console.log("planeta", planeta);
+        return await this.planetaRepository.crearPlaneta(planeta);
     }
 }

@@ -1,11 +1,14 @@
 # "org" ensures this Service is used with the correct Serverless Framework Access Key.
 org: rzopv
+
+app: api-indra
 # "service" is the name of this project. This will also be added to your AWS resource names.
 service: api-indra
 
 provider:
   name: aws
   runtime: nodejs20.x
+
   environment:
     PLANET_TABLE: ${self:service}-TbPlaneta-${sls:stage}
   iam:
@@ -26,22 +29,6 @@ resources:
         AttributeDefinitions:
           - AttributeName: id_planeta
             AttributeType: S
-          - AttributeName: url
-            AttributeType: S
-          - AttributeName: nombre
-            AttributeType: S
-          - AttributeName: terreno
-            AttributeType: S
-          - AttributeName: clima
-            AttributeType: S
-          - AttributeName: poblacion
-            AttributeType: S
-          - AttributeName: diametro
-            AttributeType: S
-          - AttributeName: periodo_rotacion
-            AttributeType: S
-          - AttributeName: periodo_orbita
-            AttributeType: S
         BillingMode: PAY_PER_REQUEST
         KeySchema:
           - AttributeName: id_planeta
@@ -49,11 +36,16 @@ resources:
 
 functions:
   crearPlaneta:
-    handler: src/handler.crearPlaneta
+    handler: src/infrastructure/lambda/PlanetaHandler.crearPlaneta
+    name: ${self:service}-crearPlaneta-${sls:stage}
     events:
       - httpApi:
           path: /planeta/crear
           method: post
 
-plugins:
-  - serverless-plugin-typescript
+  obtenerPlaneta:
+    handler: src/infrastructure/lambda/PlanetaHandler.obtenerPlaneta
+    events:
+      - httpApi:
+          path: /planeta/obtener
+          method: get
