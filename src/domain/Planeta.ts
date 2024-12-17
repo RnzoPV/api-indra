@@ -8,8 +8,8 @@ export class Planeta {
         private _clima: string = '',
         private _poblacion: string = '',
         private _diametro: string = '',
-        private _periodo_rotacion: string = '',
-        private _periodo_orbita: string = ''
+        private _periodoRotacion: string = '',
+        private _periodoOrbita: string = ''
     ) { }
     set url(url: string) {
         this._url = url;
@@ -47,18 +47,19 @@ export class Planeta {
     get diametro(): string {
         return this._diametro;
     }
-    set periodo_rotacion(periodo_rotacion: string) {
-        this._periodo_rotacion = periodo_rotacion;
+    set periodoRotacion(periodoRotacion: string) {
+        this._periodoRotacion = periodoRotacion;
     }
-    get periodo_rotacion(): string {
-        return this._periodo_rotacion;
+    get periodoRotacion(): string {
+        return this._periodoRotacion;
     }
-    set periodo_orbita(periodo_orbita: string) {
-        this._periodo_orbita = periodo_orbita;
+    set periodoOrbita(periodoOrbita: string) {
+        this._periodoOrbita = periodoOrbita;
     }
-    get periodo_orbita(): string {
-        return this._periodo_orbita;
+    get periodoOrbita(): string {
+        return this._periodoOrbita;
     }
+
     set id(id: string) {
         this._id = id;
     }

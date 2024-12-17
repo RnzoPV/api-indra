@@ -1,20 +1,23 @@
 import { Planeta } from "../domain/Planeta";
+import { DynamoDB } from 'aws-sdk';
+import { PlanetaRepository } from "../domain/PlanetaRepository";
 
-export class DynamoPlanetaRepository {
+export class DynamoPlanetaRepository implements PlanetaRepository {
     constructor(private dynamoClient: DynamoDB.DocumentClient) { }
     async obtenerPlaneta(id: string): Promise<Planeta> {
         const params = {
-            TableName: 'Planetas',
+            TableName: process.env.PLANET_TABLE!,
             Key: {
-                'id': id
+                id_planeta: id
             }
         };
         const data = await this.dynamoClient.get(params).promise();
         return data.Item as Planeta;
     }
+
     async crearPlaneta(planeta: Planeta): Promise<void> {
         const params = {
-            TableName: 'Planetas',
+            TableName:  process.env.PLANET_TABLE!,
             Item: planeta
         };
         await this.dynamoClient.put(params).promise();

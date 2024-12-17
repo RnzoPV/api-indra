@@ -6,22 +6,23 @@ service: api-indra
 provider:
   name: aws
   runtime: nodejs20.x
-
+  environment:
+    PLANET_TABLE: ${self:service}-TbPlaneta-${sls:stage}
   iam:
     role:
       statements:
         - Effect: "Allow"
           Action:
             - "dynamodb:*"
-          Resource: arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/${self:service}-PlanetTable-${sls:stage}
+          Resource: arn:aws:dynamodb:${aws:region}:${aws:accountId}:table/${self:service}-TbPlaneta-${sls:stage}
 
 
 resources:
   Resources:
-    PlanetTable:
+    TbPlaneta:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:service}-PlanetTable-${sls:stage}
+        TableName: ${self:service}-TbPlaneta-${sls:stage}
         AttributeDefinitions:
           - AttributeName: id_planeta
             AttributeType: S
